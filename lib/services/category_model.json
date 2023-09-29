@@ -1,0 +1,20 @@
+{
+  "categories": [
+    {
+      "name": "Venues",
+      "subcategory": ["Party Palace", "Banquet Halls", "Hotels"]
+    },
+    {
+      "name": "Makeup Artists",
+      "subcategory": ["Bridal Makeup"]
+    },
+    {
+      "name": "Photographers",
+      "subcategory": ["Wedding Photographer"]
+    },
+    {
+      "name": "Food",
+      "subcategory": ["Catering Services", "Cake", "Bartenders"]
+    }
+  ]
+}
