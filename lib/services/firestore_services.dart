@@ -1,11 +1,21 @@
 import 'package:wedease/consts/consts.dart';
 
 class FirestorServices {
+  // static getUser(uid) {
+  //   return firestore
+  //       .collection(userCollection)
+  //       .where('id', isEqualTo: uid)
+  //       .snapshots();
+  // }
+
   static getUser(uid) {
-    return firestore
-        .collection(userCollection)
-        .where('id', isEqualTo: uid)
-        .snapshots();
+    try {
+      return firestore.collection(userCollection).doc(uid).snapshots();
+    } catch (e) {
+      print("Error fetching user data: $e");
+      // Handle the error as needed (e.g., show an error message).
+      throw e; // Rethrow the error to propagate it up the call stack.
+    }
   }
 
   // get services according to vendors name
