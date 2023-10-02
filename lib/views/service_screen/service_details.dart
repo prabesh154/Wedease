@@ -28,11 +28,8 @@ class ServiceDetails extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.share),
           ),
-
-   
           IconButton(
             onPressed: () {
-           
               controller.addToSave(
                 s_name: data['s_name'],
                 s_imgs: data['s_imgs'][0],
