@@ -78,10 +78,10 @@ class LoginScreen extends StatelessWidget {
                           ).box.width(context.screenWidth - 50).make(),
                     10.heightBox,
                     const Text(
-                      "Signup as",
+                      "or create an account",
                       style: TextStyle(
-                        color: darkFontGrey,
-                        fontSize: 20,
+                        color: Colors.black,
+                        fontSize: 12,
                         fontFamily: bold,
                       ),
                     ),
@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                         Expanded(
                           child: ourButton(
                             color: lightGolden,
-                            title: "User",
+                            title: "Signup",
                             textColor: blueColor,
                             onPress: () {
                               // user logic
@@ -100,18 +100,18 @@ class LoginScreen extends StatelessWidget {
                             },
                           ).box.make(),
                         ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: ourButton(
-                            color: lightGolden,
-                            title: "Vendor",
-                            textColor: blueColor,
-                            onPress: () {
-                              // vendor logic
-                              Get.to(() => const SignupScreen());
-                            },
-                          ).box.make(),
-                        ),
+                        // const SizedBox(width: 5),
+                        // Expanded(
+                        //   child: ourButton(
+                        //     color: lightGolden,
+                        //     title: "Vendor",
+                        //     textColor: blueColor,
+                        //     onPress: () {
+                        //       // vendor logic
+                        //       Get.to(() => const SignupScreen());
+                        //     },
+                        //   ).box.make(),
+                        // ),
                       ],
                     ),
                     10.heightBox,
