@@ -1,18 +1,18 @@
 import 'package:wedease/consts/consts.dart';
-import 'package:wedease/views/vendor_screen/service_items.dart';
+import 'package:wedease/views/service_screen/service_details.dart';
 import 'package:wedease/widgets_common/bg_widget.dart';
-import 'package:wedease/controllers/vendor_controller.dart';
+import 'package:wedease/controllers/service_controller.dart';
 import 'package:wedease/widgets_common/loading_indicator.dart';
 
-class VendorDetails extends StatefulWidget {
+class ServiceItems extends StatefulWidget {
   final String? title;
-  const VendorDetails({Key? key, required this.title}) : super(key: key);
+  const ServiceItems({Key? key, required this.title,}) : super(key: key);
 
   @override
-  State<VendorDetails> createState() => _VendorDetailsState();
+  State<ServiceItems> createState() => _ServiceItemsState();
 }
 
-class _VendorDetailsState extends State<VendorDetails> {
+class _ServiceItemsState extends State<ServiceItems> {
   @override
   void initState() {
     super.initState();
@@ -21,15 +21,15 @@ class _VendorDetailsState extends State<VendorDetails> {
 
   switchCategory(title) {
     if (controller.subcat.contains(title)) {
-      vendorMethod = FirestorServices.getSubCategoryVendors(title);
+      serviceMethod = FirestorServices.getSubCategoryservices(title);
     } else {
-      vendorMethod = FirestorServices.getServices(title);
+      serviceMethod = FirestorServices.getServices(title);
     }
   }
 
-  var controller = Get.find<VendorController>();
-//productmethod changed to vendorMethod
-  dynamic vendorMethod;
+  var controller = Get.find<ServiceController>();
+//productmethod changed to serviceMethod
+  dynamic serviceMethod;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _VendorDetailsState extends State<VendorDetails> {
             ),
             20.heightBox,
             StreamBuilder(
-              stream: vendorMethod,
+              stream: serviceMethod,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
@@ -102,19 +102,19 @@ class _VendorDetailsState extends State<VendorDetails> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.network(
-                              data[index]['v_imgs'][0],
+                              data[index]['s_imgs'][0],
                               width: 200,
                               height: 150,
                               fit: BoxFit.cover,
                             ).box.roundedSM.clip(Clip.antiAlias).make(),
                             5.heightBox,
-                            "${data[index]['v_name']}"
+                            "${data[index]['s_name']}"
                                 .text
                                 .fontFamily(semibold)
                                 .color(darkFontGrey)
                                 .make(),
                             10.heightBox,
-                            "Rs ${data[index]['v_price']}"
+                            "Rs ${data[index]['s_price']}"
                                 .text
                                 .color(redColor)
                                 .fontFamily(bold)
@@ -131,8 +131,8 @@ class _VendorDetailsState extends State<VendorDetails> {
                             .make()
                             .onTap(() {
                           // controller.checkiFav(data[index]);
-                          Get.to(() => ServiceItems(
-                              title: "${data[index]['v_name']}",
+                          Get.to(() => ServiceDetails(
+                              title: "${data[index]['s_name']}",
                               data: data[index]));
                         });
                       },

@@ -21,17 +21,17 @@ const privacyPolicy = " Privacy Policy ";
 const termAndCond = " Terms And Conditions ";
 const alreadyHaveAccount = "Already have  an account ? ";
 const home = "Home";
-const vendors = "Vendors";
+const services = "services";
 const save = "Saved";
 const account = "Account";
 const searchanything = "Search anything...";
 const recommend = "Recommends";
 const trends = "Trends";
-const topVendors = "Top Vendors";
-const featuredVendors = "Featured Vendors";
+const topservices = "Top services";
+const featuredservices = "Featured services";
 const featuredServices = "Featured Services";
 
-//vendors strings
+//services strings
 const venues = "Venues";
 const makeupArtist = "Makeup Artists";
 const photographer = "Photographers";

@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     TextField(
                       controller: controller.emailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: emailHint,
                         labelText: email,
                       ),
@@ -40,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     TextField(
                       controller: controller.passwordController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: passwordHint,
                         labelText: password,
                       ),
@@ -104,10 +104,10 @@ class LoginScreen extends StatelessWidget {
                         // Expanded(
                         //   child: ourButton(
                         //     color: lightGolden,
-                        //     title: "Vendor",
+                        //     title: "service",
                         //     textColor: blueColor,
                         //     onPress: () {
-                        //       // vendor logic
+                        //       // service logic
                         //       Get.to(() => const SignupScreen());
                         //     },
                         //   ).box.make(),

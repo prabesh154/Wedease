@@ -1,7 +1,7 @@
 import 'package:wedease/consts/consts.dart';
 import 'package:wedease/models/category_model.dart';
 
-class VendorController extends GetxController {
+class ServiceController extends GetxController {
   var subcat = [];
   var isFav = false.obs;
 
@@ -17,11 +17,11 @@ class VendorController extends GetxController {
     }
   }
 
-  addToSave({v_name, v_imgs, v_price, context}) async {
+  addToSave({s_name, s_imgs, s_price, context}) async {
     await firestore.collection(saveCollection).doc().set({
-      'v_name': v_name,
-      'v_imgs': v_imgs,
-      'v_price': v_price,
+      's_name': s_name,
+      's_imgs': s_imgs,
+      's_price': s_price,
       'saved_by': currentUser!.uid
     }).catchError((error) {
       VxToast.show(context, msg: error.toString());
@@ -30,7 +30,7 @@ class VendorController extends GetxController {
 
   addtoWishlist(docId, context) async {
     await firestore.collection(serviceCollection).doc(docId).set({
-      'v_wishlist': FieldValue.arrayUnion([currentUser!.uid])
+      's_wishlist': FieldValue.arrayUnion([currentUser!.uid])
     }, SetOptions(merge: true));
     isFav(true);
     VxToast.show(context, msg: "Added to Saved");
@@ -38,7 +38,7 @@ class VendorController extends GetxController {
 
   removeFromWishlist(docId, context) async {
     await firestore.collection(serviceCollection).doc(docId).set({
-      'v_wishlist': FieldValue.arrayRemove([currentUser!.uid])
+      's_wishlist': FieldValue.arrayRemove([currentUser!.uid])
     }, SetOptions(merge: true));
 
     isFav(false);
@@ -46,7 +46,7 @@ class VendorController extends GetxController {
   }
 
   checkifFav(data) async {
-    if (data['v_wishlist'].contains(currentUser!.uid)) {
+    if (data['s_wishlist'].contains(currentUser!.uid)) {
       isFav(true);
     } else {
       isFav(false);

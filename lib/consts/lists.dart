@@ -8,9 +8,9 @@ const featuredImages2 = [imgS11, imgS11];
 const featuredTitles1 = [venues, makeupArtist];
 const featuredTitles2 = [photographer, food];
 
-//vendors
-const vendorsList = [venues, makeupArtist, photographer, food];
-const vendorImages = [imgVenue, imgVenue, imgVenue, imgVenue];
+//services
+const serviceList = [venues, photographer, makeupArtist];
+const serviceImages = [imgVenue, imgVenue, imgVenue];
 
 //profile
 const profileButtonsList = [mail, contact, chat, report];

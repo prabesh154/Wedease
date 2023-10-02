@@ -1,5 +1,5 @@
 import 'package:wedease/consts/consts.dart';
-import 'package:wedease/views/vendor_screen/service_items.dart';
+import 'package:wedease/views/service_screen/service_details.dart';
 import 'package:wedease/widgets_common/loading_indicator.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -25,7 +25,7 @@ class SearchScreen extends StatelessWidget {
               var data = snapshot.data!.docs;
               var filtered = data
                   .where(
-                    (element) => element['v_name']
+                    (element) => element['s_name']
                         .toString()
                         .toLowerCase()
                         .contains(title!.toLowerCase()),
@@ -33,7 +33,7 @@ class SearchScreen extends StatelessWidget {
                   .toList();
 
               if (filtered.isEmpty) {
-                return "No Vendor Services Found".text.makeCentered();
+                return "No service Services Found".text.makeCentered();
               } else {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -50,19 +50,19 @@ class SearchScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Image.network(
-                                  filtered[index]['v_imgs'][0],
+                                  filtered[index]['s_imgs'][0],
                                   height: 200,
                                   width: 150,
                                   fit: BoxFit.cover,
                                 ),
                                 const Spacer(),
-                                "${filtered[index]['v_name']}"
+                                "${filtered[index]['s_name']}"
                                     .text
                                     .fontFamily(semibold)
                                     .color(darkFontGrey)
                                     .make(),
                                 10.heightBox,
-                                "${filtered[index]['v_price']}"
+                                "${filtered[index]['s_price']}"
                                     .text
                                     .fontFamily(bold)
                                     .color(redColor)
@@ -78,8 +78,8 @@ class SearchScreen extends StatelessWidget {
                                 .padding(const EdgeInsets.all(12))
                                 .make()
                                 .onTap(() {
-                              Get.to(() => ServiceItems(
-                                  title: "${filtered[index]['v_name']}",
+                              Get.to(() => ServiceDetails(
+                                  title: "${filtered[index]['s_name']}",
                                   data: filtered[index]));
                             }))
                         .toList(),
@@ -95,7 +95,7 @@ class SearchScreen extends StatelessWidget {
 
 
 // import 'package:wedease/consts/consts.dart';
-// import 'package:wedease/views/vendor_screen/service_items.dart';
+// import 'package:wedease/views/service_screen/service_items.dart';
 // import 'package:wedease/widgets_common/loading_indicator.dart';
 
 // class SearchScreen extends StatelessWidget {
@@ -117,7 +117,7 @@ class SearchScreen extends StatelessWidget {
 //               child: loadingIndicator(),
 //             );
 //           } else if (snapshot.data!.docs.isEmpty) {
-//             return "No Vendor Services Found".text.makeCentered();
+//             return "No service Services Found".text.makeCentered();
 //           } else {
 //             var data = snapshot.data!.docs;
 //             var filtered = data

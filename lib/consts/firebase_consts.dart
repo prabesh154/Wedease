@@ -9,7 +9,7 @@ const userCollection = 'users';
 
 // productCollection as serviceCollection
 
-const serviceCollection = "vendors";
+const serviceCollection = "services";
 
 // saved collection
 const saveCollection = 'saved';

@@ -1,13 +1,13 @@
 import 'package:wedease/views/chat_screen/chat_screen.dart';
 
 import '../../consts/consts.dart';
-import 'package:wedease/controllers/vendor_controller.dart';
+import 'package:wedease/controllers/service_controller.dart';
 
-class ServiceItems extends StatelessWidget {
+class ServiceDetails extends StatelessWidget {
   final String? title;
   final dynamic data;
 
-  const ServiceItems({
+  const ServiceDetails({
     Key? key,
     required this.title,
     required this.data,
@@ -15,7 +15,7 @@ class ServiceItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(VendorController());
+    var controller = Get.put(ServiceController());
     return Scaffold(
       backgroundColor: lightGrey,
       appBar: AppBar(
@@ -29,40 +29,14 @@ class ServiceItems extends StatelessWidget {
             icon: const Icon(Icons.share),
           ),
 
-          // Obx(
-          //   () => IconButton(
-          //     onPressed: () {
-          //       // if (controller.isFav.value) {
-          //       //   controller.removeFromWishlist(data: id,context);
-          //       // } else {
-          //       //   controller.addToWishlist(data: id,context);
-          //       // }
-          //       controller.addToSave(
-          //         v_name: data['v_name'],
-          //         v_imgs: data['v_imgs'][0],
-          //         v_price: data['v_price'],
-          //       );
-          //       VxToast.show(context, msg: "Saved Successfully");
-          //     },
-          //     icon: const Icon(
-          //       Icons.favorite,
-          //       // color:controller.isFav.value? redColor:darkFontGrey
-          //       color: Color.fromARGB(255, 241, 192, 188),
-          //     ),
-          //   ),
-          // ),
-
+   
           IconButton(
             onPressed: () {
-              // if (controller.isFav.value) {
-              //   controller.removeFromWishlist(data: id);
-              // } else {
-              //   controller.addToWishlist(data: id);
-              // }
+           
               controller.addToSave(
-                v_name: data['v_name'],
-                v_imgs: data['v_imgs'][0],
-                v_price: data['v_price'],
+                s_name: data['s_name'],
+                s_imgs: data['s_imgs'][0],
+                s_price: data['s_price'],
               );
               VxToast.show(context, msg: "Saved Successfully");
             },
@@ -84,12 +58,12 @@ class ServiceItems extends StatelessWidget {
               VxSwiper.builder(
                 autoPlay: true,
                 height: 220,
-                itemCount: data['v_imgs'].length,
+                itemCount: data['s_imgs'].length,
                 viewportFraction: 1.0,
                 aspectRatio: 16 / 9,
                 itemBuilder: (context, index) {
                   return Image.network(
-                    data['v_imgs'][index],
+                    data['s_imgs'][index],
                     width: double.infinity,
                     fit: BoxFit.cover,
                   );
@@ -119,22 +93,22 @@ class ServiceItems extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Price: Rs ${data['v_price'] ?? ''}",
+                      "Price: Rs ${data['s_price'] ?? ''}",
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      "Features: ${data['v_features'] ?? ''}",
+                      "Features: ${data['s_features'] ?? ''}",
                       style: const TextStyle(fontSize: 16),
                     ),
                     Text(
-                      "Location: ${data['v_location'] ?? ''}",
+                      "Location: ${data['s_location'] ?? ''}",
                       style: const TextStyle(fontSize: 16),
                     ),
                     Text(
-                      "Description: ${data['v_description'] ?? ''}",
+                      "Description: ${data['s_description'] ?? ''}",
                       style: const TextStyle(fontSize: 16),
                     ),
 
@@ -173,12 +147,13 @@ class ServiceItems extends StatelessWidget {
             const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.message_rounded, color: darkFontGrey),
-            ).onTap(
-              () {
-                Get.to(() => const ChatScreen(),
-                    arguments: [data['v_seller'], data['vendor_id']]);
-              },
             ),
+            // ).onTap(
+            //   // () {
+            //   //   Get.to(() => const ChatScreen(),
+            //   //       arguments: [data['s_seller'], data['service_id']]);
+            //   // },
+            // ),
             const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.call, color: darkFontGrey),

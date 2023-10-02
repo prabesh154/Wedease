@@ -1,5 +1,5 @@
 import 'package:wedease/consts/consts.dart';
-import 'package:wedease/views/vendor_screen/vendor_details.dart';
+import 'package:wedease/views/service_screen/service_items.dart';
 
 Widget featuredButton({String? title, icon}) {
   return Row(
@@ -17,6 +17,6 @@ Widget featuredButton({String? title, icon}) {
       .outerShadowSm
       .make()
       .onTap(() {
-    Get.to(() => VendorDetails(title: title));
+    Get.to(() => ServiceItems(title: title,));
   });
 }

@@ -14,23 +14,23 @@ class FirestorServices {
     } catch (e) {
       print("Error fetching user data: $e");
       // Handle the error as needed (e.g., show an error message).
-      throw e; // Rethrow the error to propagate it up the call stack.
+      rethrow; // Rethrow the error to propagate it up the call stack.
     }
   }
 
-  // get services according to vendors name
+  // get services according to services name
 
   static getServices(name) {
     return firestore
         .collection(serviceCollection)
-        .where('v_category', isEqualTo: name)
+        .where('s_category', isEqualTo: name)
         .snapshots();
   }
 
-  static getSubCategoryVendors(title) {
+  static getSubCategoryservices(title) {
     return firestore
         .collection(serviceCollection)
-        .where('v_subcategory', isEqualTo: title)
+        .where('s_subcategory', isEqualTo: title)
         .snapshots();
   }
 
@@ -67,10 +67,12 @@ class FirestorServices {
         .get();
   }
 
+  //Attention needed
+
   static searchServices(title) {
     return firestore
         .collection(serviceCollection)
-        .where('v_name', isLessThanOrEqualTo: title)
+        .where('s_name', isLessThanOrEqualTo: title)
         .get();
   }
 }

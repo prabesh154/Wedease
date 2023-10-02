@@ -3,7 +3,7 @@ import 'package:wedease/consts/lists.dart';
 import 'package:wedease/controllers/home_controller.dart';
 import 'package:wedease/views/home_screen/components/featured_button.dart';
 import 'package:wedease/views/home_screen/search_screen.dart';
-import 'package:wedease/views/vendor_screen/service_items.dart';
+import 'package:wedease/views/service_screen/service_details.dart';
 import 'package:wedease/widgets_common/home_buttons.dart';
 import 'package:wedease/widgets_common/loading_indicator.dart';
 
@@ -79,12 +79,12 @@ class HomeScreen extends StatelessWidget {
                           height: context.screenHeight * 0.15,
                           width: context.screenWidth / 3.5,
                           icon: index == 0
-                              ? icTopVendors
+                              ? icTopservices
                               : index == 1
                                   ? ictrends
                                   : icRecommend,
                           title: index == 0
-                              ? topVendors
+                              ? topservices
                               : index == 1
                                   ? trends
                                   : recommend,
@@ -92,11 +92,11 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
 
-                    // Featured Vendors
+                    // Featured services
                     20.heightBox,
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: featuredVendors.text
+                      child: featuredservices.text
                           .color(darkFontGrey)
                           .size(18)
                           .fontFamily(semibold)
@@ -164,19 +164,19 @@ class HomeScreen extends StatelessWidget {
                                                 children: [
                                                   Image.network(
                                                     featuredData[index]
-                                                        ['v_imgs'][0],
+                                                        ['s_imgs'][0],
                                                     width: 150,
                                                     height: 130,
                                                     fit: BoxFit.cover,
                                                   ),
                                                   10.heightBox,
-                                                  "${featuredData[index]['v_name']}"
+                                                  "${featuredData[index]['s_name']}"
                                                       .text
                                                       .fontFamily(semibold)
                                                       .color(darkFontGrey)
                                                       .make(),
                                                   10.heightBox,
-                                                  "${featuredData[index]['v_price']}"
+                                                  "${featuredData[index]['s_price']}"
                                                       .numCurrency
                                                       .text
                                                       .color(redColor)
@@ -195,9 +195,9 @@ class HomeScreen extends StatelessWidget {
                                                       const EdgeInsets.all(8))
                                                   .make()
                                                   .onTap(() {
-                                                Get.to(() => ServiceItems(
+                                                Get.to(() => ServiceDetails(
                                                       title:
-                                                          "${featuredData[index]['v_name']}",
+                                                          "${featuredData[index]['s_name']}",
                                                       data: featuredData[index],
                                                     ));
                                               })),

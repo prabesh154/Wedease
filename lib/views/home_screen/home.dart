@@ -1,7 +1,7 @@
 import 'package:wedease/consts/consts.dart';
 import 'package:wedease/controllers/home_controller.dart';
 import 'package:wedease/views/save_screen/save_screen.dart';
-import 'package:wedease/views/vendor_screen/vendor_screen.dart';
+import 'package:wedease/views/service_screen/service_screen.dart';
 import 'package:wedease/views/home_screen/home_screen.dart';
 import 'package:wedease/views/profile_screen/profile_screen.dart';
 
@@ -18,7 +18,7 @@ class Home extends StatelessWidget {
       BottomNavigationBarItem(
           icon: Image.asset(icHome, width: 26), label: 'Home'),
       BottomNavigationBarItem(
-          icon: Image.asset(icVendor, width: 26), label: 'Vendors'),
+          icon: Image.asset(icservice, width: 26), label: 'services'),
       BottomNavigationBarItem(
           icon: Image.asset(icSave, width: 26), label: 'Saved'),
       BottomNavigationBarItem(
@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
 
     var navBody = [
       const HomeScreen(),
-      const VendorScreen(),
+      const ServiceScreen(),
       const SaveScreen(),
       const ProfileScreen()
     ];

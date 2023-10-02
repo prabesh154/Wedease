@@ -6,7 +6,7 @@ const icBell = "assets/icons/bell.png";
 const ictrends = "assets/icons/brands.png";
 
 const icSave = "assets/icons/heart.png";
-const icVendor = "assets/icons/categories.png";
+const icservice = "assets/icons/categories.png";
 
 const icChat = "assets/icons/chat.png";
 const icMail = "assets/icons/mail.png";
@@ -32,7 +32,7 @@ const icSearch = "assets/icons/search.png";
 const icSplashBg =
     "assets/icons/splash_login_registration_background_image.png";
 const icTodaysDeal = "assets/icons/todays_deal.png";
-const icTopVendors = "assets/icons/top_categories.png";
+const icTopservices = "assets/icons/top_categories.png";
 const icRecommend = "assets/icons/top_sellers.png";
 const icTrash = "assets/icons/trash.png";
 const icTwitterLogo = "assets/icons/twitter_logo.png";
