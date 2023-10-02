@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:wedease/consts/consts.dart';
 import 'package:wedease/views/service_screen/service_details.dart';
-import 'package:wedease/views/service_screen/service_items.dart';
 import 'package:wedease/widgets_common/loading_indicator.dart';
 
 class SaveScreen extends StatelessWidget {
-  const SaveScreen({Key? key,}) : super(key: key);
+  const SaveScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +41,13 @@ class SaveScreen extends StatelessWidget {
                       // You need to define your details screen and pass the data[index] to it
 
                       // controller.checkiFav(data[index]);
-                      // Get.to(() => ServiceDetails(
-                      //     title: "${data[index]['s_name']}",
-                      //     data: data[index]
-                      //     ));
-
-                      debugPrint("${data[index]['s_name']}");
+                      Get.to(
+                        () => ServiceDetails(
+                            //title: data[index]['s_name'],
+                            title: "${data[index]['s_name']}",
+                            data: data[index].data()),
+                      );
+                      print(data[index]);
                     },
                     child: Container(
                       decoration: BoxDecoration(
