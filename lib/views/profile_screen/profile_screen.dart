@@ -73,7 +73,8 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         body: StreamBuilder<DocumentSnapshot>(
           stream: FirestorServices.getUser(currentUser!.uid),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(
@@ -91,7 +92,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     // Edit profile button
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.all(12),
                       child: const Align(
                         alignment: Alignment.centerRight,
                         child: Icon(
@@ -110,12 +111,14 @@ class ProfileScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           data['imageUrl'] == ''
-                              ? Image.asset(imgProfile, width: 100, fit: BoxFit.cover)
+                              ? Image.asset(imgProfile,
+                                      width: 100, fit: BoxFit.cover)
                                   .box
                                   .roundedFull
                                   .clip(Clip.antiAlias)
                                   .make()
-                              : Image.network(data['imageUrl'], width: 100, fit: BoxFit.cover)
+                              : Image.network(data['imageUrl'],
+                                      width: 100, fit: BoxFit.cover)
                                   .box
                                   .roundedFull
                                   .clip(Clip.antiAlias)
@@ -125,7 +128,11 @@ class ProfileScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                "${data['name']}".text.fontFamily(semibold).white.make(),
+                                "${data['name']}"
+                                    .text
+                                    .fontFamily(semibold)
+                                    .white
+                                    .make(),
                                 5.heightBox,
                                 "${data['email']}".text.white.make(),
                               ],
@@ -137,7 +144,8 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             onPressed: () async {
                               VxToast.show(context, msg: loggedout);
-                              await Get.put(AuthController()).signoutMethod(context);
+                              await Get.put(AuthController())
+                                  .signoutMethod(context);
                               Get.offAll(() => const LoginScreen());
                             },
                             child: const Text(
@@ -151,54 +159,60 @@ class ProfileScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    100.heightBox,
 
                     // Button section
                     ListView.separated(
                       shrinkWrap: true,
                       separatorBuilder: (context, index) {
-                        return const Divider(
-                          color: lightGrey,
-                          height: 10,
-                        );
+                        return const Divider();
                       },
                       itemCount: profileButtonsList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading: Image.asset(
-                            profileButtonsIcon[index],
-                            width: 30,
+                        return Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              gradient: const LinearGradient(colors: [
+                                Color.fromARGB(255, 135, 152, 179),
+                                Color.fromARGB(255, 110, 76, 221)
+                              ])),
+                          child: ListTile(
+                            leading: Image.asset(
+                              profileButtonsIcon[index],
+                              width: 30,
+                            ),
+                            title: profileButtonsList[index]
+                                .text
+                                .fontFamily(semibold)
+                                .color(Colors.white)
+                                .make(),
+                            onTap: () {
+                              if (profileButtonsList[index] == mail) {
+                                sendEmail(); // Execute sendEmail function for "Mail Us" button
+                              } else if (profileButtonsList[index] == chat) {
+                                sendSMS(); // Execute sendSMS function for "Contact Us" button
+                              } else if (profileButtonsList[index] == contact) {
+                                openDialer(); // Execute openDialer function for "Contact Us" button
+                              } else {
+                                sendEmail();
+                              }
+                            },
                           ),
-                          title: profileButtonsList[index]
-                              .text
-                              .fontFamily(semibold)
-                              .color(darkFontGrey)
-                              .make(),
-                          onTap: () {
-                            if (profileButtonsList[index] == mail) {
-                              sendEmail(); // Execute sendEmail function for "Mail Us" button
-                            } else if (profileButtonsList[index] == chat) {
-                              sendSMS(); // Execute sendSMS function for "Contact Us" button
-                            } else if (profileButtonsList[index] == contact) {
-                              openDialer(); // Execute openDialer function for "Contact Us" button
-                            } else {
-                              sendEmail();
-                            }
-                          },
                         );
                       },
-                    )
-                        .box
-                        .gray100
-                        .rounded
-                        .margin(const EdgeInsets.all(6))
-                        .padding(
-                          const EdgeInsets.symmetric(horizontal: 16),
-                        )
-                        .shadowSm
-                        .make()
-                        .box
-                        .color(lightGrey)
-                        .make(),
+                    ).paddingOnly(left: 8, right: 8)
+                    // .box
+                    // .gray100
+                    // .rounded
+                    // .margin(const EdgeInsets.all(6))
+                    // .padding(
+                    //   const EdgeInsets.symmetric(horizontal: 16),
+                    // )
+                    // .shadowSm
+                    // .make()
+                    // .box
+                    // .color(lightGrey)
+                    // .make(),
                   ],
                 ),
               );
