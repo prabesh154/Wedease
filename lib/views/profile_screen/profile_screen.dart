@@ -92,7 +92,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     // Edit profile button
                     Padding(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.only(right: 14, top: 10),
                       child: const Align(
                         alignment: Alignment.centerRight,
                         child: Icon(
@@ -130,6 +130,7 @@ class ProfileScreen extends StatelessWidget {
                               children: [
                                 "${data['name']}"
                                     .text
+                                    .headline6(context)
                                     .fontFamily(semibold)
                                     .white
                                     .make(),
@@ -142,11 +143,37 @@ class ProfileScreen extends StatelessWidget {
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(color: whiteColor),
                             ),
-                            onPressed: () async {
-                              VxToast.show(context, msg: loggedout);
-                              await Get.put(AuthController())
-                                  .signoutMethod(context);
-                              Get.offAll(() => const LoginScreen());
+                            onPressed: () {
+                              // Show a confirmation dialog
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Logout Confirmation'),
+                                    content: const Text(
+                                        'Are you sure you want to logout?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close the dialog
+                                        },
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          // Perform logout and navigate to the login screen
+                                          VxToast.show(context, msg: loggedout);
+                                          await Get.put(AuthController())
+                                              .signoutMethod(context);
+                                          Get.offAll(() => const LoginScreen());
+                                        },
+                                        child: const Text('Logout'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             child: const Text(
                               'Logout',
@@ -155,52 +182,51 @@ class ProfileScreen extends StatelessWidget {
                                 color: whiteColor,
                               ),
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
                     100.heightBox,
 
                     // Button section
-                    ListView.separated(
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) {
-                        return const Divider();
-                      },
-                      itemCount: profileButtonsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              gradient: const LinearGradient(colors: [
-                                Color.fromARGB(255, 135, 152, 179),
-                                Color.fromARGB(255, 110, 76, 221)
-                              ])),
-                          child: ListTile(
-                            leading: Image.asset(
-                              profileButtonsIcon[index],
-                              width: 30,
+                    SingleChildScrollView(
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) {
+                          return const Divider(
+                            color: blackColor,
+                          );
+                        },
+                        itemCount: profileButtonsList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            child: ListTile(
+                              leading: Image.asset(
+                                profileButtonsIcon[index],
+                                width: 30,
+                              ),
+                              title: profileButtonsList[index]
+                                  .text
+                                  .fontFamily(semibold)
+                                  .color(blackColor)
+                                  .make(),
+                              onTap: () {
+                                if (profileButtonsList[index] == mail) {
+                                  sendEmail(); // Execute sendEmail function for "Mail Us" button
+                                } else if (profileButtonsList[index] == chat) {
+                                  sendSMS(); // Execute sendSMS function for "Contact Us" button
+                                } else if (profileButtonsList[index] ==
+                                    contact) {
+                                  openDialer(); // Execute openDialer function for "Contact Us" button
+                                } else {
+                                  sendEmail();
+                                }
+                              },
                             ),
-                            title: profileButtonsList[index]
-                                .text
-                                .fontFamily(semibold)
-                                .color(Colors.white)
-                                .make(),
-                            onTap: () {
-                              if (profileButtonsList[index] == mail) {
-                                sendEmail(); // Execute sendEmail function for "Mail Us" button
-                              } else if (profileButtonsList[index] == chat) {
-                                sendSMS(); // Execute sendSMS function for "Contact Us" button
-                              } else if (profileButtonsList[index] == contact) {
-                                openDialer(); // Execute openDialer function for "Contact Us" button
-                              } else {
-                                sendEmail();
-                              }
-                            },
-                          ),
-                        );
-                      },
-                    ).paddingOnly(left: 8, right: 8)
+                          );
+                        },
+                      ).paddingOnly(left: 8, right: 8),
+                    )
                     // .box
                     // .gray100
                     // .rounded
