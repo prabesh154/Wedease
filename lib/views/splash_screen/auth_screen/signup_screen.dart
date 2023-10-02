@@ -142,8 +142,13 @@ class _SignupScreenState extends State<SignupScreen> {
                             title: 'signup',
                             textColor: whiteColor,
                             onPress: () async {
-                              if (isCheck != false) {
-                                controller.isloading(true);
+                              bool isSigningUp =
+                                  false; // Flag to track signup process
+
+                              if (isCheck != false && !isSigningUp) {
+                                isSigningUp =
+                                    true; // Set the flag to indicate signup process is ongoing
+
                                 try {
                                   // Check if the account already exists
                                   bool accountExists = await controller
@@ -152,23 +157,33 @@ class _SignupScreenState extends State<SignupScreen> {
                                     // Account already exists, show an error message or take appropriate action
                                     VxToast.show(context,
                                         msg: 'Account already exists');
+                                  }
+                                  if (passwordController.text !=
+                                      retypepasswordController.text) {
+                                    // Passwords do not match, show an error message
+                                    VxToast.show(context,
+                                        msg: 'Passwords do not match');
                                   } else {
-                                    // Account doesn't exist, proceed with signup
+                                    // Account doesn't exist and passwords match, proceed with signup
                                     await controller.signupMethod(
-                                        context: context,
-                                        email: emailController.text,
-                                        password: passwordController.text);
+                                      context: context,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    );
                                     await controller.storeUserData(
-                                        name: nameController.text,
-                                        password: passwordController.text,
-                                        email: emailController.text);
-                                    //VxToast.show(context, msg: signedin);
+                                      name: nameController.text,
+                                      password: passwordController.text,
+                                      email: emailController.text,
+                                    );
+                                    VxToast.show(context, msg: signedin);
                                     Get.offAll(() => const LoginScreen());
                                   }
                                 } catch (e) {
                                   auth.signOut();
                                   VxToast.show(context, msg: e.toString());
-                                  controller.isloading(false);
+                                } finally {
+                                  // Reset the flag to allow future signup attempts
+                                  isSigningUp = false;
                                 }
                               }
                             },
