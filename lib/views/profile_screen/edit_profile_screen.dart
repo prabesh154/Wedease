@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:wedease/controllers/profile_controller.dart';
 import 'package:wedease/widgets_common/bg_widget.dart';
 import 'package:wedease/consts/consts.dart';
@@ -98,26 +96,24 @@ class EditProfileScreen extends StatelessWidget {
                               controller.profileImageLink = data['imageUrl'];
                             }
 
-                            if (data['password'] ==
-                                controller.oldpassController.text) {
+                            // Check if a new password is provided
+                            if (controller.newpassController.text.isNotEmpty) {
+                              // Update password only if a new password is provided
                               await controller.changeAuthPassword(
-                                  email: data['email'],
-                                  password: controller.oldpassController.text,
-                                  newpassword:
-                                      controller.newpassController.text);
-
-                              await controller.updateProfile(
-                                imgUrl: controller.profileImageLink,
-                                name: controller.nameController.text,
-                                password: controller.newpassController.text,
+                                email: data['email'],
+                                password: controller.oldpassController.text,
+                                newpassword: controller.newpassController.text,
                               );
-
-                              VxToast.show(context,
-                                  msg: 'Updated Successfully');
-                            } else {
-                              VxToast.show(context, msg: "Wrong old password");
-                              controller.isloading(false);
                             }
+
+                            // Update profile information (name and image)
+                            await controller.updateProfile(
+                              imgUrl: controller.profileImageLink,
+                              name: controller.nameController.text,
+                              password: controller.newpassController.text,
+                            );
+
+                            VxToast.show(context, msg: 'Updated Successfully');
                           },
                           textColor: whiteColor,
                           title: "Save",
