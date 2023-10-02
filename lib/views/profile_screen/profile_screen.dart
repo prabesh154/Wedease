@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wedease/controllers/auth_controller.dart';
 import 'package:wedease/controllers/profile_controller.dart';
 import 'package:wedease/consts/consts.dart';
@@ -13,21 +13,56 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   void sendEmail() async {
-    final Uri _emailLaunchUri = Uri(
+    final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
-      path: 'studentproblem2020@gmail.com', // Replace with your Gmail address
+      path: 'rijalprabesh154@gmail.com', // Replace with your Gmail address
       queryParameters: {
-        'subject': 'Feedback/Inquiry from WeDease App', // Set the email subject
+        'subject': 'Feedback/Inquiry for WedEase App', // Set the email subject
       },
     );
 
-    final String emailUri = _emailLaunchUri.toString();
+    final String emailUri = emailLaunchUri.toString();
 
     if (await canLaunch(emailUri)) {
       await launch(emailUri);
     } else {
       // Handle error, e.g., show an error message to the user
       print('Could not launch email');
+    }
+  }
+
+  void sendSMS() async {
+    final Uri smsLaunchUri = Uri(
+      scheme: 'sms',
+      path: '+977 9860807203', // Replace with the recipient's phone number
+      queryParameters: {
+        'body': 'Feedback to WedEase', // Set the SMS body
+      },
+    );
+
+    final String smsUri = smsLaunchUri.toString();
+
+    if (await canLaunch(smsUri)) {
+      await launch(smsUri);
+    } else {
+      // Handle error, e.g., show an error message to the user
+      print('Could not launch SMS');
+    }
+  }
+
+  void openDialer() async {
+    final Uri dialLaunchUri = Uri(
+      scheme: 'tel',
+      path: '+9779860807203', // Replace with the phone number you want to dial
+    );
+
+    final String dialUri = dialLaunchUri.toString();
+
+    if (await canLaunch(dialUri)) {
+      await launch(dialUri);
+    } else {
+      // Handle error, e.g., show an error message to the user
+      print('Could not open the dialer');
     }
   }
 
@@ -38,8 +73,7 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         body: StreamBuilder<DocumentSnapshot>(
           stream: FirestorServices.getUser(currentUser!.uid),
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(
@@ -55,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
               return SafeArea(
                 child: Column(
                   children: [
-                    // edit profile button
+                    // Edit profile button
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Align(
@@ -76,14 +110,12 @@ class ProfileScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           data['imageUrl'] == ''
-                              ? Image.asset(imgProfile,
-                                      width: 100, fit: BoxFit.cover)
+                              ? Image.asset(imgProfile, width: 100, fit: BoxFit.cover)
                                   .box
                                   .roundedFull
                                   .clip(Clip.antiAlias)
                                   .make()
-                              : Image.network(data['imageUrl'],
-                                      width: 100, fit: BoxFit.cover)
+                              : Image.network(data['imageUrl'], width: 100, fit: BoxFit.cover)
                                   .box
                                   .roundedFull
                                   .clip(Clip.antiAlias)
@@ -93,11 +125,7 @@ class ProfileScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                "${data['name']}"
-                                    .text
-                                    .fontFamily(semibold)
-                                    .white
-                                    .make(),
+                                "${data['name']}".text.fontFamily(semibold).white.make(),
                                 5.heightBox,
                                 "${data['email']}".text.white.make(),
                               ],
@@ -109,8 +137,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             onPressed: () async {
                               VxToast.show(context, msg: loggedout);
-                              await Get.put(AuthController())
-                                  .signoutMethod(context);
+                              await Get.put(AuthController()).signoutMethod(context);
                               Get.offAll(() => const LoginScreen());
                             },
                             child: const Text(
@@ -125,7 +152,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
 
-                    // button section
+                    // Button section
                     ListView.separated(
                       shrinkWrap: true,
                       separatorBuilder: (context, index) {
@@ -149,8 +176,12 @@ class ProfileScreen extends StatelessWidget {
                           onTap: () {
                             if (profileButtonsList[index] == mail) {
                               sendEmail(); // Execute sendEmail function for "Mail Us" button
+                            } else if (profileButtonsList[index] == chat) {
+                              sendSMS(); // Execute sendSMS function for "Contact Us" button
+                            } else if (profileButtonsList[index] == contact) {
+                              openDialer(); // Execute openDialer function for "Contact Us" button
                             } else {
-                              // Handle other button taps if needed
+                              sendEmail();
                             }
                           },
                         );
