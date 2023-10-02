@@ -1,3 +1,4 @@
+ import 'package:share_plus/share_plus.dart';
 import 'package:wedease/views/chat_screen/chat_screen.dart';
 
 import '../../consts/consts.dart';
@@ -25,7 +26,9 @@ class ServiceDetails extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Share.share('check out my website https://example.com');
+            },
             icon: const Icon(Icons.share),
           ),
           IconButton(
