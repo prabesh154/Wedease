@@ -43,7 +43,6 @@ class SaveScreen extends StatelessWidget {
                       // controller.checkiFav(data[index]);
                       Get.to(
                         () => ServiceDetails(
-                            //title: data[index]['s_name'],
                             title: "${data[index]['s_name']}",
                             data: data[index].data()),
                       );

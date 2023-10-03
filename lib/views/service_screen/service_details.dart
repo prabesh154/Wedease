@@ -1,5 +1,8 @@
- import 'package:share_plus/share_plus.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:wedease/views/chat_screen/chat_screen.dart';
+import 'package:wedease/views/service_screen/inquiry_section.dart';
+import 'package:wedease/widgets_common/normal_text.dart';
+import 'package:wedease/widgets_common/our_button.dart';
 
 import '../../consts/consts.dart';
 import 'package:wedease/controllers/service_controller.dart';
@@ -27,7 +30,7 @@ class ServiceDetails extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Share.share('check out my website https://example.com');
+              Share.share('check out my website https://wedease.com');
             },
             icon: const Icon(Icons.share),
           ),
@@ -42,24 +45,24 @@ class ServiceDetails extends StatelessWidget {
             },
             icon: const Icon(
               Icons.favorite,
-              // color:controller.isFav.value? redColor:darkFontGrey
               color: Color.fromARGB(255, 241, 192, 188),
             ),
           ),
         ],
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.only(
+              left: 8.0, right: 8.0, top: 16.0, bottom: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Swiper actions
+              // Swiper images
               VxSwiper.builder(
-                autoPlay: true,
-                height: 220,
                 itemCount: data['s_imgs'].length,
-                viewportFraction: 1.0,
+                autoPlay: true,
+                autoPlayAnimationDuration: const Duration(seconds: 3),
                 aspectRatio: 16 / 9,
                 itemBuilder: (context, index) {
                   return Image.network(
@@ -69,67 +72,115 @@ class ServiceDetails extends StatelessWidget {
                   );
                 },
               ),
-
-              // Title and details section
-              const SizedBox(height: 10),
-              Text(
-                title!,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: darkFontGrey,
-                  fontFamily: bold,
-                ),
-              ),
-
-              const SizedBox(height: 1),
-
-              Container(
-                height: 530,
-                width: double.infinity,
-                color: lightGrey,
-                margin: const EdgeInsets.only(bottom: 10),
+              // Service details
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      "Price: Rs ${data['s_price'] ?? ''}",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        boldText(text: 'Name:', size: 16.0, color: blackColor),
+                        8.widthBox,
+                        normalText(
+                            text: "${data['s_name']}",
+                            size: 16.0,
+                            color: blackColor),
+                      ],
                     ),
-                    Text(
-                      "Features: ${data['s_features'] ?? ''}",
-                      style: const TextStyle(fontSize: 16),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        boldText(
+                            text: 'Location:', size: 16.0, color: blackColor),
+                        8.widthBox,
+                        normalText(
+                            text: "${data['s_location']}",
+                            size: 16.0,
+                            color: blackColor),
+                      ],
                     ),
-                    Text(
-                      "Location: ${data['s_location'] ?? ''}",
-                      style: const TextStyle(fontSize: 16),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        boldText(
+                            text: 'Ratings 8.40 :',
+                            size: 16.0,
+                            color: blackColor),
+                        8.widthBox,
+                        Row(
+                          children: [
+                            const Icon(Icons.star,
+                                color: Color.fromARGB(255, 224, 212, 10)),
+                            const Icon(Icons.star,
+                                color: Color.fromARGB(255, 234, 212, 10)),
+                            const Icon(Icons.star,
+                                color: Color.fromARGB(255, 234, 212, 10)),
+                            const Icon(Icons.star,
+                                color: Color.fromARGB(255, 234, 212, 10)),
+                            const Icon(Icons.star_border,
+                                color: Color.fromARGB(255, 232, 212, 10)),
+                            const SizedBox(width: 4),
+                            normalText(
+                                text: "${data['s_rating']}",
+                                size: 16.0,
+                                color: blackColor),
+                          ],
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Description: ${data['s_description'] ?? ''}",
-                      style: const TextStyle(fontSize: 16),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        boldText(text: 'Rate:', size: 16.0, color: blackColor),
+                        8.widthBox,
+                        normalText(
+                            text: "${data['s_price']}",
+                            size: 16.0,
+                            color: blackColor),
+                      ],
                     ),
-
-                    // Second box
+                    const SizedBox(height: 16),
                     Container(
-                      height: 100,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 2,
-                        ),
-                      ),
-                      child: const TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter details',
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        ),
-                      ),
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: blueColor,
+                            borderRadius: BorderRadius.circular(5),
+                            shape: BoxShape.rectangle),
+                        child: Center(
+                          child: boldText(
+                              text: 'Features:', size: 16.0, color: blackColor),
+                        )),
+                    const SizedBox(height: 8),
+                    normalText(
+                        text: "${data['s_features']}",
+                        size: 16.0,
+                        color: blackColor),
+                    const SizedBox(height: 16),
+                    Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: blueColor,
+                            borderRadius: BorderRadius.circular(5),
+                            shape: BoxShape.rectangle),
+                        child: Center(
+                          child: boldText(
+                              text: 'Description:',
+                              size: 16.0,
+                              color: blackColor),
+                        )),
+                    const SizedBox(height: 8),
+                    normalText(
+                      text: "${data['s_description']}",
+                      size: 16.0,
+                      color: blackColor,
                     ),
                   ],
                 ),
@@ -146,20 +197,42 @@ class ServiceDetails extends StatelessWidget {
           children: [
             const CircleAvatar(
               backgroundColor: Colors.white,
-              child: Icon(Icons.message_rounded, color: darkFontGrey),
+              child: Icon(Icons.message_rounded, color: lightPink),
             ),
-            // ).onTap(
-            //   // () {
-            //   //   Get.to(() => const ChatScreen(),
-            //   //       arguments: [data['s_seller'], data['service_id']]);
-            //   // },
-            // ),
+            ourButton(
+              title: 'Send Inquiry',
+              color: lightPink,
+              textColor: blackColor,
+              onPress: () {
+                // Navigate to the InquirySection when the button is pressed
+                showModalBottomSheet<void>(
+                  isScrollControlled: true,
+                  showDragHandle: true,
+                  
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                  ),
+                  barrierColor: fontGreyOpacity,
+                  backgroundColor: whiteColor,
+                  // Set background color to transparent
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const InquirySection();
+                  },
+                );
+              },
+            ),
             const CircleAvatar(
               backgroundColor: Colors.white,
-              child: Icon(Icons.call, color: darkFontGrey),
-            ).onTap(() {
-              // Add your call functionality here
-            }),
+              child: Icon(Icons.call, color: lightPink),
+            ).onTap(
+              () {
+                // Add your call functionality here
+              },
+            ),
           ],
         ),
       ),
