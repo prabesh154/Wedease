@@ -31,15 +31,12 @@ class SaveScreen extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.count(
-                crossAxisCount: 2, // Number of columns in the grid
-                crossAxisSpacing: 15, // Spacing between columns
-                mainAxisSpacing: 20, // Spacing between rows
+                crossAxisCount: 2, 
+                crossAxisSpacing: 15, 
+                mainAxisSpacing: 20,
                 children: List.generate(data.length, (index) {
                   return GestureDetector(
                     onTap: () {
-                      // Navigate to the details screen when an item is clicked
-                      // You need to define your details screen and pass the data[index] to it
-
                       // controller.checkiFav(data[index]);
                       Get.to(
                         () => ServiceDetails(
@@ -55,7 +52,7 @@ class SaveScreen extends StatelessWidget {
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment
-                            .center, // Align children at the center vertically
+                            .center, 
                         children: [
                           Expanded(
                             child: Container(
