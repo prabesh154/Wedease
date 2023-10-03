@@ -7,8 +7,9 @@ import 'package:wedease/widgets_common/our_button.dart';
 import '../../consts/consts.dart';
 import 'package:wedease/controllers/service_controller.dart';
 
-class ServiceDetails extends StatelessWidget {
+class ServiceDetails extends StatefulWidget {
   final String? title;
+
   final dynamic data;
 
   const ServiceDetails({
@@ -18,13 +19,30 @@ class ServiceDetails extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ServiceDetails> createState() => _ServiceDetailsState();
+}
+
+class _ServiceDetailsState extends State<ServiceDetails> {
+  List<Map<String, dynamic>> savedServices = [];
+  bool isFavorite = false;
+  // Declare 'data' variable here to make it accessible throughout the widget
+  late dynamic data;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize 'data' with the widget's data
+    data = widget.data;
+  }
+
+  @override
   Widget build(BuildContext context) {
     var controller = Get.put(ServiceController());
     return Scaffold(
       backgroundColor: lightGrey,
       appBar: AppBar(
         title: Text(
-          title!,
+          widget.title!,
           style: const TextStyle(color: darkFontGrey, fontFamily: bold),
         ),
         actions: [
@@ -36,16 +54,41 @@ class ServiceDetails extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              controller.addToSave(
-                s_name: data['s_name'],
-                s_imgs: data['s_imgs'][0],
-                s_price: data['s_price'],
-              );
-              VxToast.show(context, msg: "Saved Successfully");
+              bool isAlreadySaved = savedServices.any((services) =>
+                  services['s_name'] == widget.data['s_name'] &&
+                  services['s_imgs'] == widget.data['s_imgs'][0] &&
+                  services['s_price'] == widget.data['s_price']);
+
+              if (!isAlreadySaved) {
+                controller.addToSave(
+                  s_name: widget.data['s_name'],
+                  s_imgs: widget.data['s_imgs'][0],
+                  s_price: widget.data['s_price'],
+                );
+
+                VxToast.show(context, msg: "Saved Successfully");
+
+                setState(() {
+                  // Toggle the favorite icon color
+                  isFavorite = true;
+
+                  // Add the saved service to the list
+                  savedServices.add({
+                    's_name': widget.data['s_name'],
+                    's_imgs': widget.data['s_imgs'][0],
+                    's_price': widget.data['s_price'],
+                  });
+                });
+              } else {
+                // If the service is already saved, you can show a message to the user
+                VxToast.show(context, msg: "Service is already saved");
+              }
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.favorite,
-              color: Color.fromARGB(255, 241, 192, 188),
+              color: isFavorite
+                  ? Colors.red
+                  : const Color.fromARGB(255, 241, 192, 188),
             ),
           ),
         ],
@@ -60,13 +103,13 @@ class ServiceDetails extends StatelessWidget {
             children: [
               // Swiper images
               VxSwiper.builder(
-                itemCount: data['s_imgs'].length,
+                itemCount: widget.data['s_imgs'].length,
                 autoPlay: true,
                 autoPlayAnimationDuration: const Duration(seconds: 3),
                 aspectRatio: 16 / 9,
                 itemBuilder: (context, index) {
                   return Image.network(
-                    data['s_imgs'][index],
+                    widget.data['s_imgs'][index],
                     width: double.infinity,
                     fit: BoxFit.cover,
                   );
@@ -85,7 +128,7 @@ class ServiceDetails extends StatelessWidget {
                         boldText(text: 'Name:', size: 16.0, color: blackColor),
                         8.widthBox,
                         normalText(
-                            text: "${data['s_name']}",
+                            text: "${widget.data['s_name']}",
                             size: 16.0,
                             color: blackColor),
                       ],
@@ -98,7 +141,7 @@ class ServiceDetails extends StatelessWidget {
                             text: 'Location:', size: 16.0, color: blackColor),
                         8.widthBox,
                         normalText(
-                            text: "${data['s_location']}",
+                            text: "${widget.data['s_location']}",
                             size: 16.0,
                             color: blackColor),
                       ],
@@ -126,7 +169,7 @@ class ServiceDetails extends StatelessWidget {
                                 color: Color.fromARGB(255, 232, 212, 10)),
                             const SizedBox(width: 4),
                             normalText(
-                                text: "${data['s_rating']}",
+                                text: "${widget.data['s_rating']}",
                                 size: 16.0,
                                 color: blackColor),
                           ],
@@ -140,7 +183,7 @@ class ServiceDetails extends StatelessWidget {
                         boldText(text: 'Rate:', size: 16.0, color: blackColor),
                         8.widthBox,
                         normalText(
-                            text: "${data['s_price']}",
+                            text: "${widget.data['s_price']}",
                             size: 16.0,
                             color: blackColor),
                       ],
@@ -159,7 +202,7 @@ class ServiceDetails extends StatelessWidget {
                         )),
                     const SizedBox(height: 8),
                     normalText(
-                        text: "${data['s_features']}",
+                        text: "${widget.data['s_features']}",
                         size: 16.0,
                         color: blackColor),
                     const SizedBox(height: 16),
@@ -178,7 +221,7 @@ class ServiceDetails extends StatelessWidget {
                         )),
                     const SizedBox(height: 8),
                     normalText(
-                      text: "${data['s_description']}",
+                      text: "${widget.data['s_description']}",
                       size: 16.0,
                       color: blackColor,
                     ),
@@ -198,7 +241,10 @@ class ServiceDetails extends StatelessWidget {
             const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.message_rounded, color: lightPink),
-            ),
+            ).onTap(() {
+              Get.to(() => const ChatScreen(),
+                  arguments: [data['s_seller'], data['vendor_id']]);
+            }),
             ourButton(
               title: 'Send Inquiry',
               color: lightPink,
@@ -208,7 +254,7 @@ class ServiceDetails extends StatelessWidget {
                 showModalBottomSheet<void>(
                   isScrollControlled: true,
                   showDragHandle: true,
-                  
+
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(16),
