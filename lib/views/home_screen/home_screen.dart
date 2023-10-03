@@ -3,6 +3,7 @@ import 'package:wedease/consts/lists.dart';
 import 'package:wedease/controllers/home_controller.dart';
 import 'package:wedease/views/home_screen/components/featured_button.dart';
 import 'package:wedease/views/home_screen/search_screen.dart';
+import 'package:wedease/views/home_screen/slider_image.dart';
 import 'package:wedease/views/service_screen/service_details.dart';
 import 'package:wedease/widgets_common/home_buttons.dart';
 import 'package:wedease/widgets_common/loading_indicator.dart';
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
     var controller = Get.find<HomeController>();
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(0),
       color: lightGrey,
       width: context.screenWidth,
       height: context.screenHeight,
@@ -24,42 +25,42 @@ class HomeScreen extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.center,
-              height: 110, // Adjust the height as needed
+              height: 0, // Adjust the height as needed
               color: lightGrey,
-              child: Column(
+              child: const Column(
                 children: [
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      suffixIcon: Icon(Icons.search),
-                      filled: true,
-                      fillColor: whiteColor,
-                      hintText: 'Search location',
-                      hintStyle: TextStyle(color: textfieldGrey),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: controller.searchController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          if (controller
-                              .searchController.text.isNotEmptyAndNotNull) {
-                            Get.to(() => SearchScreen(
-                                  title: controller.searchController.text,
-                                ));
-                          }
-                        },
-                        child: const Icon(Icons.search),
-                      ),
-                      filled: true,
-                      fillColor: whiteColor,
-                      hintText: 'Search anything',
-                      hintStyle: const TextStyle(color: textfieldGrey),
-                    ),
-                  ),
+                  // TextFormField(
+                  //   decoration: const InputDecoration(
+                  //     border: InputBorder.none,
+                  //     suffixIcon: Icon(Icons.search),
+                  //     filled: true,
+                  //     fillColor: whiteColor,
+                  //     hintText: 'Search location',
+                  //     hintStyle: TextStyle(color: textfieldGrey),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 10),
+                  // TextFormField(
+                  //   controller: controller.searchController,
+                  //   decoration: InputDecoration(
+                  //     border: InputBorder.none,
+                  //     suffixIcon: GestureDetector(
+                  //       onTap: () {
+                  //         if (controller
+                  //             .searchController.text.isNotEmptyAndNotNull) {
+                  //           Get.to(() => SearchScreen(
+                  //                 title: controller.searchController.text,
+                  //               ));
+                  //         }
+                  //       },
+                  //       child: const Icon(Icons.search),
+                  //     ),
+                  //     filled: true,
+                  //     fillColor: whiteColor,
+                  //     hintText: 'Search anything',
+                  //     hintStyle: const TextStyle(color: textfieldGrey),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -91,6 +92,8 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    20.heightBox,
+                    const AdvertisementSlider(),
 
                     // Featured services
                     20.heightBox,
@@ -149,9 +152,10 @@ class HomeScreen extends StatelessWidget {
                                       child: loadingIndicator(),
                                     );
                                   } else if (snapshot.data!.docs.isEmpty) {
-                                    return "No Featured Services"
+                                    return "No Featured Services Available"
                                         .text
-                                        .white
+                                        .heightTight
+                                        .color(Colors.black)
                                         .makeCentered();
                                   } else {
                                     var featuredData = snapshot.data!.docs;
