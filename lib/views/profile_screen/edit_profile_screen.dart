@@ -42,7 +42,7 @@ class EditProfileScreen extends StatelessWidget {
                           ).box.roundedFull.clip(Clip.antiAlias).make(),
                 10.heightBox,
                 ourButton(
-                  color: borderColor,
+                  color: blueColor,
                   onPress: () {
                     controller.changeImage(context);
                   },
@@ -86,7 +86,7 @@ class EditProfileScreen extends StatelessWidget {
                     : SizedBox(
                         width: context.screenWidth - 60,
                         child: ourButton(
-                          color: borderColor,
+                          color: blueColor,
                           onPress: () async {
                             controller.isloading(true);
 

@@ -4,7 +4,7 @@ import 'package:wedease/views/service_screen/service_items.dart';
 Widget featuredButton({String? title, icon}) {
   return Row(
     children: [
-      Image.asset(icon, width: 50, fit: BoxFit.fill),
+      Image.asset(icon, width: 60, fit: BoxFit.fitHeight),
       10.widthBox,
       title!.text.fontFamily(semibold).color(darkFontGrey).make(),
     ],
@@ -13,7 +13,7 @@ Widget featuredButton({String? title, icon}) {
       .width(174)
       .margin(const EdgeInsets.symmetric(horizontal: 3))
       .white
-      .padding(const EdgeInsets.all(3))
+      .padding(const EdgeInsets.all(3.5))
       .outerShadowSm
       .make()
       .onTap(() {

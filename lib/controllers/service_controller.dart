@@ -17,15 +17,25 @@ class ServiceController extends GetxController {
     }
   }
 
-  getVendorPhone(title)async{
-    
-  }
+  getVendorPhone(title) async {}
 
-  addToSave({s_name, s_imgs, s_price, context}) async {
+  addToSave(
+      {s_name,
+      s_imgs,
+      s_price,
+      s_location,
+      s_description,
+      s_features,
+      s_seller,
+      context}) async {
     await firestore.collection(saveCollection).doc().set({
       's_name': s_name,
       's_imgs': s_imgs,
       's_price': s_price,
+      's_location': s_location,
+      's_description': s_description,
+      's_features': s_features,
+      's_seller': s_seller,
       'saved_by': currentUser!.uid
     }).catchError((error) {
       VxToast.show(context, msg: error.toString());

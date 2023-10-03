@@ -78,10 +78,18 @@ class LoginScreen extends StatelessWidget {
                           ).box.width(context.screenWidth - 50).make(),
                     10.heightBox,
                     const Text(
-                      "or create an account",
+                      "Not Registered?",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 12,
+                        fontFamily: bold,
+                      ),
+                    ),
+                                        const Text(
+                      "Create an Accoount",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 14,
                         fontFamily: bold,
                       ),
                     ),
@@ -115,25 +123,7 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                     10.heightBox,
-                    loginWith.text.color(fontGrey).make(),
-                    5.heightBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        2,
-                        (index) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            backgroundColor: lightGrey,
-                            radius: 25,
-                            child: Image.asset(
-                              socialIconList[index],
-                              width: 30,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+
                   ],
                 )
                     .box

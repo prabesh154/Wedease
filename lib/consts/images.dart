@@ -44,10 +44,11 @@ const icWholeSale = "assets/icons/wholesale.png";
 
 const imgBackground = "assets/icons/bg.png";
 
-const imgVenue = "assets/images/venue.png";
+const imgVenue = "assets/images/venuess.jpg";
 
 const imgProfile = "assets/images/profile_image.png";
 
 const imgS11 = "assets/images/s11.jpg";
 const imgPhotographer = "assets/images/photographers.png";
 const imgMakeup = "assets/images/makeup.jpg";
+const imgFood = "assets/images/foodcatering.png";

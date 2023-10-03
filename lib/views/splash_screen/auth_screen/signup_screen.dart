@@ -70,19 +70,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       controller: retypepasswordController,
                       isPass: true,
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          forgetPass,
-                          style: TextStyle(
-                            fontFamily: regular,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
                     Row(
                       children: [
                         Checkbox(
@@ -139,7 +126,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           )
                         : ourButton(
                             color: isCheck ? blueColor : lightGrey,
-                            title: 'signup',
+                            title: 'Sign Up',
                             textColor: whiteColor,
                             onPress: () async {
                               bool isSigningUp =

@@ -2,11 +2,11 @@ import 'package:wedease/consts/consts.dart';
 
 const socialIconList = [icFacebookLogo, icGoogleLogo];
 
-const featuredImages1 = [imgS11, imgS11];
-const featuredImages2 = [imgS11, imgS11];
+const featuredImages1 = [imgVenue, imgMakeup];
+const featuredImages2 = [imgPhotographer, imgFood];
 
 const featuredTitles1 = [venues, makeupArtist];
-const featuredTitles2 = [photographer,food];
+const featuredTitles2 = [photographer, food];
 
 //services
 const serviceList = [venues, photographer, makeupArtist];

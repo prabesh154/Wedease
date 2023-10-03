@@ -57,14 +57,24 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             onPressed: () {
               bool isAlreadySaved = savedServices.any((services) =>
                   services['s_name'] == widget.data['s_name'] &&
-                  services['s_imgs'] == widget.data['s_imgs'][0] &&
-                  services['s_price'] == widget.data['s_price']);
+                  services['s_imgs'] == widget.data['s_imgs'] &&
+                  services['s_price'] == widget.data['s_price']&&
+                  services['s_location'] == widget.data['s_location']&&
+                  services['s_description'] == widget.data['s_description']&&
+                  services['s_features'] == widget.data['s_features']&&
+                  services['s_seller'] == widget.data['s_seller']
+                  );
 
               if (!isAlreadySaved) {
                 controller.addToSave(
                   s_name: widget.data['s_name'],
-                  s_imgs: widget.data['s_imgs'][0],
+                  s_imgs: widget.data['s_imgs'],
                   s_price: widget.data['s_price'],
+                  s_location: widget.data['s_location'],
+                  s_description: widget.data['s_description'],
+                  s_features: widget.data['s_features'],
+                  s_seller: widget.data['s_seller'],
+
                 );
 
                 VxToast.show(context, msg: "Saved Successfully");
@@ -78,6 +88,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     's_name': widget.data['s_name'],
                     's_imgs': widget.data['s_imgs'][0],
                     's_price': widget.data['s_price'],
+                    's_location': widget.data['s_location'],
+                    
+                   's_description': widget.data['s_description'],
+                   's_features': widget.data['s_features'],
+                   's_seller': widget.data['s_seller'],
                   });
                 });
               } else {
@@ -129,7 +144,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         boldText(text: 'Name:', size: 16.0, color: blackColor),
                         8.widthBox,
                         normalText(
-                            text: "${widget.data['s_name']}",
+                            text: "${widget.data['s_seller']}",
                             size: 16.0,
                             color: blackColor),
                       ],

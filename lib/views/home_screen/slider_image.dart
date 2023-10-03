@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 List<String> advertisementImages = [
   'assets/images/slider3.png',
-  'assets/images/slider4.png',
+  'assets/images/slider5.png',
 
   // Add more image paths as needed
 ];
@@ -16,7 +16,7 @@ class AdvertisementSlider extends StatelessWidget {
     return CarouselSlider(
       options: CarouselOptions(
         autoPlay: true,
-        aspectRatio: 16 / 9, // You can adjust the aspect ratio
+        aspectRatio: 12 / 5, // You can adjust the aspect ratio
         enlargeCenterPage: true,
         scrollDirection: Axis.horizontal,
         autoPlayInterval:
@@ -30,7 +30,7 @@ class AdvertisementSlider extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 5.0),
               child: Image.asset(
                 imagePath,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             );
           },

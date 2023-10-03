@@ -25,10 +25,10 @@ const services = "Services";
 const save = "Saved";
 const account = "Account";
 const searchanything = "Search anything...";
-const recommend = "Recommends";
+const recommend = "Luxury";
 const trends = "Trends";
-const topservices = "Top services";
-const featuredservices = "Featured services";
+const topservices = "Many Services";
+const topCategories = "Top Categories";
 const featuredServices = "Featured Services";
 
 //services strings

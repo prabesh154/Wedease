@@ -24,10 +24,10 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               alignment: Alignment.center,
-              height: 0, // Adjust the height as needed
-              color: lightGrey,
-              child: const Column(
+              height: 60, // Adjust the height as needed
+              child: Column(
                 children: [
                   // TextFormField(
                   //   decoration: const InputDecoration(
@@ -39,28 +39,36 @@ class HomeScreen extends StatelessWidget {
                   //     hintStyle: TextStyle(color: textfieldGrey),
                   //   ),
                   // ),
-                  // const SizedBox(height: 10),
-                  // TextFormField(
-                  //   controller: controller.searchController,
-                  //   decoration: InputDecoration(
-                  //     border: InputBorder.none,
-                  //     suffixIcon: GestureDetector(
-                  //       onTap: () {
-                  //         if (controller
-                  //             .searchController.text.isNotEmptyAndNotNull) {
-                  //           Get.to(() => SearchScreen(
-                  //                 title: controller.searchController.text,
-                  //               ));
-                  //         }
-                  //       },
-                  //       child: const Icon(Icons.search),
-                  //     ),
-                  //     filled: true,
-                  //     fillColor: whiteColor,
-                  //     hintText: 'Search anything',
-                  //     hintStyle: const TextStyle(color: textfieldGrey),
-                  //   ),
-                  // ),
+                  const SizedBox(height: 10.0),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                          20), // Adjust the radius as needed
+                      color: Color.fromARGB(255, 236, 134, 134),
+                    ),
+                    child: TextFormField(
+                      controller: controller.searchController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            if (controller
+                                .searchController.text.isNotEmptyAndNotNull) {
+                              Get.to(() => SearchScreen(
+                                    title: controller.searchController.text,
+                                  ));
+                            }
+                          },
+                          child: const Icon(Icons.search),
+                        ),
+                        filled: true,
+                        fillColor: Colors
+                            .transparent, // Set the fill color to transparent
+                        hintText: 'Search any Service or Location',
+                        hintStyle: const TextStyle(color: whiteColor),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -77,8 +85,8 @@ class HomeScreen extends StatelessWidget {
                       children: List.generate(
                         3,
                         (index) => homeButtons(
-                          height: context.screenHeight * 0.15,
-                          width: context.screenWidth / 3.5,
+                          height: context.screenHeight * 0.1,
+                          width: context.screenWidth / 3.6,
                           icon: index == 0
                               ? icTopservices
                               : index == 1
@@ -95,16 +103,15 @@ class HomeScreen extends StatelessWidget {
                     20.heightBox,
                     const AdvertisementSlider(),
 
-                    // Featured services
+                    
                     20.heightBox,
                     Padding(
-                      padding: const EdgeInsets.only(left:20.0),
+                      padding: const EdgeInsets.only(left: 20.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: featuredservices.text
+                        child: topCategories.text
                             .color(blackColor)
                             .size(18)
-                            
                             .fontFamily(bold)
                             .make(),
                       ),
@@ -135,7 +142,7 @@ class HomeScreen extends StatelessWidget {
                     // Featured Services
                     20.heightBox,
                     Container(
-                      padding: EdgeInsets.only(left:20),
+                      padding: const EdgeInsets.only(left: 20),
                       width: double.infinity,
                       decoration: const BoxDecoration(color: lightGrey),
                       child: Column(
@@ -148,6 +155,7 @@ class HomeScreen extends StatelessWidget {
                               .make(),
                           20.heightBox,
                           SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             child: FutureBuilder<QuerySnapshot>(
                                 future: FirestorServices.getFeaturedServices(),

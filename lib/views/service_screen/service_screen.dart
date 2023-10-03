@@ -26,20 +26,20 @@ class ServiceScreen extends StatelessWidget {
           itemCount: serviceList.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 1,
-              mainAxisExtent: 150),
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 0,
+              mainAxisExtent: 160),
           itemBuilder: (context, index) {
             return Column(
               children: [
                 Image.asset(serviceImages[index],
                     height: 120,
-                    width: 100,
-                    alignment: Alignment.centerLeft,
+                    width: 160,
+                    alignment: Alignment.topLeft,
                     fit: BoxFit.fitWidth),
-                1.heightBox,
                 serviceList[index]
                     .text
+                    .size(20)
                     .color(darkFontGrey)
                     .align(TextAlign.center)
                     .make(),

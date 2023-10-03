@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wedease/consts/consts.dart';
+import 'package:wedease/views/home_screen/search_screen.dart';
 import 'package:wedease/views/service_screen/service_details.dart';
 import 'package:wedease/widgets_common/bg_widget.dart';
 import 'package:wedease/controllers/service_controller.dart';
@@ -18,6 +19,8 @@ class ServiceItems extends StatefulWidget {
 
 class _ServiceItemsState extends State<ServiceItems> {
   var controller = Get.find<ServiceController>();
+  
+  var searchController = TextEditingController();
   String selectedSubcategory = ""; // Initially, no subcategory is selected
 
   @override
@@ -44,6 +47,40 @@ class _ServiceItemsState extends State<ServiceItems> {
         appBar: AppBar(
           title: widget.title!.text.fontFamily(bold).white.make(),
         ),
+        //         floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     showDialog(
+        //       context: context,
+        //       builder: (BuildContext context) {
+        //         return AlertDialog(
+        //           title: const Text("Search within Subcategory"),
+        //           content: TextFormField(
+        //             controller: searchController,
+        //             decoration: const InputDecoration(
+        //               border: InputBorder.none,
+        //               hintText: 'Search within subcategory',
+        //             ),
+        //           ),
+        //           actions: <Widget>[
+        //             TextButton(
+        //               child: const Text("Search"),
+        //               onPressed: () {
+        //                 if (searchController.text.isNotEmptyAndNotNull) {
+        //                   Get.to(() => SearchScreen(
+        //                         subcategory: selectedSubcategory,
+        //                         query: searchController.text,
+        //                       ));
+        //                 }
+        //                 //
+        //               },
+        //             ),
+        //           ],
+        //         );
+        //       },
+        //     );
+        //   },
+        //   child: const Icon(Icons.search),
+        // ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
