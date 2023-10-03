@@ -11,3 +11,6 @@ const Color lightGolden = Color(0xffFEEAD1);
 const Color blackColor = Color.fromARGB(255, 12, 12, 12);
 const Color redColor = Color.fromARGB(255, 212, 17, 17);
 const Color borderColor = Color.fromARGB(255, 31, 20, 185);
+const Color lightPink = Color.fromARGB(255, 236, 142, 132);
+Color fontGreyOpacity =
+    const Color.fromRGBO(107, 115, 119, 1).withOpacity(0.82);
