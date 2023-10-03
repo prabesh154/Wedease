@@ -49,3 +49,5 @@ const imgVenue = "assets/images/venue.png";
 const imgProfile = "assets/images/profile_image.png";
 
 const imgS11 = "assets/images/s11.jpg";
+const imgPhotographer = "assets/images/photographers.png";
+const imgMakeup = "assets/images/makeup.jpg";

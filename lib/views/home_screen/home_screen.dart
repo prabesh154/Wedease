@@ -97,13 +97,17 @@ class HomeScreen extends StatelessWidget {
 
                     // Featured services
                     20.heightBox,
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: featuredservices.text
-                          .color(darkFontGrey)
-                          .size(18)
-                          .fontFamily(semibold)
-                          .make(),
+                    Padding(
+                      padding: const EdgeInsets.only(left:20.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: featuredservices.text
+                            .color(blackColor)
+                            .size(18)
+                            
+                            .fontFamily(bold)
+                            .make(),
+                      ),
                     ),
                     20.heightBox,
                     SingleChildScrollView(
@@ -131,6 +135,7 @@ class HomeScreen extends StatelessWidget {
                     // Featured Services
                     20.heightBox,
                     Container(
+                      padding: EdgeInsets.only(left:20),
                       width: double.infinity,
                       decoration: const BoxDecoration(color: lightGrey),
                       child: Column(

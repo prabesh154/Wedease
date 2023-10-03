@@ -18,7 +18,7 @@ class Home extends StatelessWidget {
       BottomNavigationBarItem(
           icon: Image.asset(icHome, width: 26), label: 'Home'),
       BottomNavigationBarItem(
-          icon: Image.asset(icservice, width: 26), label: 'services'),
+          icon: Image.asset(icservice, width: 26), label: 'Services'),
       BottomNavigationBarItem(
           icon: Image.asset(icSave, width: 26), label: 'Saved'),
       BottomNavigationBarItem(
