@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wedease/consts/consts.dart';
 import 'package:wedease/views/service_screen/service_details.dart';
 import 'package:wedease/widgets_common/bg_widget.dart';
@@ -6,13 +7,19 @@ import 'package:wedease/widgets_common/loading_indicator.dart';
 
 class ServiceItems extends StatefulWidget {
   final String? title;
-  const ServiceItems({Key? key, required this.title,}) : super(key: key);
+  const ServiceItems({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   State<ServiceItems> createState() => _ServiceItemsState();
 }
 
 class _ServiceItemsState extends State<ServiceItems> {
+  var controller = Get.find<ServiceController>();
+  String selectedSubcategory = ""; // Initially, no subcategory is selected
+
   @override
   void initState() {
     super.initState();
@@ -27,8 +34,7 @@ class _ServiceItemsState extends State<ServiceItems> {
     }
   }
 
-  var controller = Get.find<ServiceController>();
-//productmethod changed to serviceMethod
+  // productmethod changed to serviceMethod
   dynamic serviceMethod;
 
   @override
@@ -46,22 +52,45 @@ class _ServiceItemsState extends State<ServiceItems> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(controller.subcat.length, (index) {
-                  return "${controller.subcat[index]}"
-                      .text
-                      .size(12)
-                      .fontFamily(semibold)
-                      .color(darkFontGrey)
-                      .makeCentered()
-                      .box
-                      .white
-                      .rounded
-                      .size(120, 60)
-                      .margin(const EdgeInsets.symmetric(horizontal: 4))
-                      .make()
-                      .onTap(() {
-                    switchCategory("${controller.subcat[index]}");
-                    setState(() {});
-                  });
+                  return GestureDetector(
+                    onTap: () {
+                      // Handle subcategory selection here
+                      setState(() {
+                        selectedSubcategory = controller.subcat[index];
+                      });
+
+                      // Perform other actions when a subcategory is tapped
+                      switchCategory(selectedSubcategory);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 7.0,right: 7),
+                      width: 130,
+                      height: 60,
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        color: selectedSubcategory == controller.subcat[index]
+                            ? const Color.fromARGB(255, 136, 136,
+                                133) // Set the color for the selected subcategory
+                            : Colors
+                                .white, // Default color for other subcategories
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          controller.subcat[index],
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: bold,
+                            color: selectedSubcategory ==
+                                    controller.subcat[index]
+                                ? const Color.fromARGB(255, 249, 249,
+                                    249) // Text color for the selected subcategory
+                                : darkFontGrey, // Default text color for other subcategories
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 }),
               ),
             ),
@@ -93,7 +122,7 @@ class _ServiceItemsState extends State<ServiceItems> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        mainAxisExtent: 250,
+                        mainAxisExtent: 260,
                         mainAxisSpacing: 8,
                         crossAxisSpacing: 8,
                       ),
@@ -115,6 +144,13 @@ class _ServiceItemsState extends State<ServiceItems> {
                                 .make(),
                             10.heightBox,
                             "Rs ${data[index]['s_price']}"
+                                .text
+                                .color(redColor)
+                                .fontFamily(bold)
+                                .size(16)
+                                .make(),
+                            10.heightBox,
+                            "${data[index]['s_location']}"
                                 .text
                                 .color(redColor)
                                 .fontFamily(bold)
