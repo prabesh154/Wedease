@@ -26,6 +26,9 @@ class FirestorServices {
         .where('s_category', isEqualTo: name)
         .snapshots();
   }
+// static getVendorInfo(id){
+//   return firestore.collection(vendorCollection).where('vendor_id',isEqualTo:id).snapshots();
+// }
 
   static getSubCategoryservices(title) {
     return firestore

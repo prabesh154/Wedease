@@ -17,6 +17,10 @@ class ServiceController extends GetxController {
     }
   }
 
+  getVendorPhone(title)async{
+    
+  }
+
   addToSave({s_name, s_imgs, s_price, context}) async {
     await firestore.collection(saveCollection).doc().set({
       's_name': s_name,

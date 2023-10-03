@@ -1,4 +1,5 @@
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wedease/views/chat_screen/chat_screen.dart';
 import 'package:wedease/views/service_screen/inquiry_section.dart';
 import 'package:wedease/widgets_common/normal_text.dart';
@@ -276,6 +277,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               child: Icon(Icons.call, color: lightPink),
             ).onTap(
               () {
+                callVendor(data['vendor_id']);
+
+                print(data['vendor_id']);
+
                 // Add your call functionality here
               },
             ),
@@ -283,5 +288,39 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         ),
       ),
     );
+  }
+
+  Future<void> callVendor(id) async {
+    try {
+      // Query the Firestore collection to get the vendor's information
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('seller_vendors') // Replace with your collection name
+          .where('id', isEqualTo: id)
+          .get(); // Use get() instead of snapshots()
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Extract the vendor's phone number from the first document
+        var data = querySnapshot.docs[0].data()
+            as Map<String, dynamic>; // Explicit cast to Map<String, dynamic>
+
+        if (data.containsKey('vendor_mobile')) {
+          String phoneNumber = data['vendor_mobile'];
+
+          // Check if the phone number is valid and launch the phone app to make the call
+          if (await canLaunch('tel:$phoneNumber')) {
+            await launch('tel:$phoneNumber');
+          } else {
+            throw 'Could not launch $phoneNumber';
+          }
+        } else {
+          throw 'Invalid or missing vendor_mobile field';
+        }
+      } else {
+        throw 'Vendor not found'; // Handle the case where the vendor is not found
+      }
+    } catch (e) {
+      print('Error: $e');
+      // Handle errors here
+    }
   }
 }
