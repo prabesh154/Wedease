@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(
                           20), // Adjust the radius as needed
-                      color: Color.fromARGB(255, 236, 134, 134),
+                      color: const Color.fromARGB(255, 236, 134, 134),
                     ),
                     child: TextFormField(
                       controller: controller.searchController,
@@ -102,8 +102,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                     20.heightBox,
                     const AdvertisementSlider(),
-
-                    
                     20.heightBox,
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
