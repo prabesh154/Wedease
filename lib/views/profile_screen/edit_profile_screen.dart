@@ -60,6 +60,16 @@ class EditProfileScreen extends StatelessWidget {
                         hint: nameHint,
                         title: name,
                         isPass: false,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Name cannot be empty';
+                          } else if (value.length < 3) {
+                            return 'Name should be at least 3 characters long';
+                          } else if (!value.contains(RegExp(r'^[a-zA-Z]+$'))) {
+                            return 'Name should contain only alphabetic characters';
+                          }
+                          return null;
+                        },
                       ),
                       10.heightBox,
                       customTextField(
@@ -74,6 +84,20 @@ class EditProfileScreen extends StatelessWidget {
                         hint: passwordHint,
                         title: newpass,
                         isPass: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password cannot be empty';
+                          } else if (value.length < 5) {
+                            return 'Password should be at least 5 characters long';
+                          } else if (!value.contains(RegExp(r'[A-Z]'))) {
+                            return 'Password should contain at least one uppercase letter';
+                          } else if (!value.contains(RegExp(r'[a-z]'))) {
+                            return 'Password should contain at least one lowercase letter';
+                          } else if (!value.contains(RegExp(r'\d'))) {
+                            return 'Password should contain at least one number';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),
@@ -90,30 +114,61 @@ class EditProfileScreen extends StatelessWidget {
                           onPress: () async {
                             controller.isloading(true);
 
-                            if (controller.profileImgPath.value.isNotEmpty) {
-                              await controller.uploadProfileImage();
+                            // Validate the name and new password
+                            String? nameError = (controller
+                                    .nameController.text.isEmpty)
+                                ? 'Name cannot be empty'
+                                : (controller.nameController.text.length < 3)
+                                    ? 'Name should be at least 3 characters long'
+                                    : (!controller.nameController.text
+                                            .contains(RegExp(r'^[a-zA-Z]+$')))
+                                        ? 'Name should contain only alphabetic characters'
+                                        : null;
+
+                            String? newPasswordError = (controller
+                                    .newpassController.text.isEmpty)
+                                ? 'Password cannot be empty'
+                                : (controller.newpassController.text.length < 5)
+                                    ? 'Password should be at least 5 characters long'
+                                    : (!controller.newpassController.text
+                                            .contains(RegExp(r'[A-Z]')))
+                                        ? 'Password should contain at least one uppercase letter'
+                                        : (!controller.newpassController.text
+                                                .contains(RegExp(r'[a-z]')))
+                                            ? 'Password should contain at least one lowercase letter'
+                                            : (!controller
+                                                    .newpassController.text
+                                                    .contains(RegExp(r'\d')))
+                                                ? 'Password should contain at least one number'
+                                                : null;
+
+                            if (nameError != null || newPasswordError != null) {
+                              VxToast.show(context,
+                                  msg: 'Please fix name or password validaiton');
                             } else {
-                              controller.profileImageLink = data['imageUrl'];
-                            }
+                              // Check if a new password is provided
+                              if (controller
+                                  .newpassController.text.isNotEmpty) {
+                                // Update password only if a new password is provided
+                                await controller.changeAuthPassword(
+                                  email: data['email'],
+                                  password: controller.oldpassController.text,
+                                  newpassword:
+                                      controller.newpassController.text,
+                                );
+                              }
 
-                            // Check if a new password is provided
-                            if (controller.newpassController.text.isNotEmpty) {
-                              // Update password only if a new password is provided
-                              await controller.changeAuthPassword(
-                                email: data['email'],
-                                password: controller.oldpassController.text,
-                                newpassword: controller.newpassController.text,
+                              // Update profile information (name and image)
+                              await controller.updateProfile(
+                                imgUrl: controller.profileImageLink,
+                                name: controller.nameController.text,
+                                password: controller.newpassController.text,
                               );
+
+                              VxToast.show(context,
+                                  msg: 'Updated Successfully');
                             }
-
-                            // Update profile information (name and image)
-                            await controller.updateProfile(
-                              imgUrl: controller.profileImageLink,
-                              name: controller.nameController.text,
-                              password: controller.newpassController.text,
-                            );
-
-                            VxToast.show(context, msg: 'Updated Successfully');
+                            controller.isloading(false);
                           },
                           textColor: whiteColor,
                           title: "Save",

@@ -53,11 +53,23 @@ class AuthController extends GetxController {
   }
 
   Future<bool> checkAccountExists(String email) async {
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final QuerySnapshot<Map<String, dynamic>> result = await FirebaseFirestore
+          .instance
+          .collection(
+              'users') // Replace 'Users' with your actual collection name
+          .where('email', isEqualTo: email)
+          .get();
 
-    // Return a random result for demonstration purposes
-    return Random().nextBool();
+      // If there is at least one document with the provided email, an account exists
+      return result.docs.isNotEmpty;
+    } catch (e) {
+      // Handle any potential errors, e.g., Firestore is not initialized or network issues
+      print('Error checking account existence: $e');
+      return false; // Return false in case of errors
+    }
   }
+
   //signout method
 
   signoutMethod(context) async {
