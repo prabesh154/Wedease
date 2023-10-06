@@ -46,13 +46,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                       obscureText: true,
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: forgetPass.text.make(),
-                      ),
-                    ),
                     5.heightBox,
                     controller.isloading.value
                         ? const CircularProgressIndicator(
@@ -85,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                         fontFamily: bold,
                       ),
                     ),
-                                        const Text(
+                    const Text(
                       "Create an Accoount",
                       style: TextStyle(
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -123,7 +116,6 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                     10.heightBox,
-
                   ],
                 )
                     .box

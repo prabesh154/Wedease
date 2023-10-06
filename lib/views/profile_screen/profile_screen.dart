@@ -69,6 +69,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ProfileController());
+    print("user id ${currentUser!.uid}");
     return Scaffold(
       backgroundColor: whiteColor,
       body: StreamBuilder<DocumentSnapshot>(
@@ -81,7 +82,7 @@ class ProfileScreen extends StatelessWidget {
                 valueColor: AlwaysStoppedAnimation(blueColor),
               ),
             );
-          } else if (!snapshot.hasData || !snapshot.data!.exists) {
+          } else if (!snapshot.hasData) {
             return const Center(
               child: Text("No data available."),
             );
@@ -189,7 +190,10 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   30.heightBox,
-                  Divider(thickness: 3,color: fontGrey,),
+                  const Divider(
+                    thickness: 3,
+                    color: fontGrey,
+                  ),
 
                   // Button section
                   SingleChildScrollView(

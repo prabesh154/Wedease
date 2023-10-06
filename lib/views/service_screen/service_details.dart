@@ -10,7 +10,6 @@ import 'package:wedease/controllers/service_controller.dart';
 
 class ServiceDetails extends StatefulWidget {
   final String? title;
-
   final dynamic data;
 
   const ServiceDetails({
@@ -24,21 +23,25 @@ class ServiceDetails extends StatefulWidget {
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
-  List<Map<String, dynamic>> savedServices = [];
-  bool isFavorite = false;
-  // Declare 'data' variable here to make it accessible throughout the widget
   late dynamic data;
+  var controller;
 
   @override
   void initState() {
     super.initState();
     // Initialize 'data' with the widget's data
     data = widget.data;
+    controller = Get.put(ServiceController());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.isSaved.value = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(ServiceController());
     return Scaffold(
       backgroundColor: lightGrey,
       appBar: AppBar(
@@ -53,60 +56,35 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             },
             icon: const Icon(Icons.share),
           ),
-          IconButton(
-            onPressed: () {
-              bool isAlreadySaved = savedServices.any((services) =>
-                  services['s_name'] == widget.data['s_name'] &&
-                  services['s_imgs'] == widget.data['s_imgs'] &&
-                  services['s_price'] == widget.data['s_price']&&
-                  services['s_location'] == widget.data['s_location']&&
-                  services['s_description'] == widget.data['s_description']&&
-                  services['s_features'] == widget.data['s_features']&&
-                  services['s_seller'] == widget.data['s_seller']
-                  );
+          FutureBuilder(
+              future:
+                  controller.getSaveStatus(service_name: widget.data["s_name"]),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return IconButton(
+                      onPressed: () async {
+                        controller.isSaved.value = !controller.isSaved.value;
+                        await controller.toggleSave(
+                            service_name: widget.data["s_name"]);
 
-              if (!isAlreadySaved) {
-                controller.addToSave(
-                  s_name: widget.data['s_name'],
-                  s_imgs: widget.data['s_imgs'],
-                  s_price: widget.data['s_price'],
-                  s_location: widget.data['s_location'],
-                  s_description: widget.data['s_description'],
-                  s_features: widget.data['s_features'],
-                  s_seller: widget.data['s_seller'],
+                        setState(() {});
 
+                        VxToast.show(context, msg: "Favorite Updated");
+                      },
+                      icon: Icon(
+                        Icons.favorite,
+                        color: controller.isSaved.value
+                            ? Colors.red
+                            : const Color.fromARGB(255, 241, 192, 188),
+                      ),
+                    );
+                  }
+                }
+                return const LinearProgressIndicator(
+                  backgroundColor: fontGrey,
                 );
-
-                VxToast.show(context, msg: "Saved Successfully");
-
-                setState(() {
-                  // Toggle the favorite icon color
-                  isFavorite = true;
-
-                  // Add the saved service to the list
-                  savedServices.add({
-                    's_name': widget.data['s_name'],
-                    's_imgs': widget.data['s_imgs'][0],
-                    's_price': widget.data['s_price'],
-                    's_location': widget.data['s_location'],
-                    
-                   's_description': widget.data['s_description'],
-                   's_features': widget.data['s_features'],
-                   's_seller': widget.data['s_seller'],
-                  });
-                });
-              } else {
-                // If the service is already saved, you can show a message to the user
-                VxToast.show(context, msg: "Service is already saved");
-              }
-            },
-            icon: Icon(
-              Icons.favorite,
-              color: isFavorite
-                  ? Colors.red
-                  : const Color.fromARGB(255, 241, 192, 188),
-            ),
-          ),
+              }),
         ],
       ),
       body: SingleChildScrollView(
@@ -160,36 +138,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             text: "${widget.data['s_location']}",
                             size: 16.0,
                             color: blackColor),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        boldText(
-                            text: 'Ratings 8.40 :',
-                            size: 16.0,
-                            color: blackColor),
-                        8.widthBox,
-                        Row(
-                          children: [
-                            const Icon(Icons.star,
-                                color: Color.fromARGB(255, 224, 212, 10)),
-                            const Icon(Icons.star,
-                                color: Color.fromARGB(255, 234, 212, 10)),
-                            const Icon(Icons.star,
-                                color: Color.fromARGB(255, 234, 212, 10)),
-                            const Icon(Icons.star,
-                                color: Color.fromARGB(255, 234, 212, 10)),
-                            const Icon(Icons.star_border,
-                                color: Color.fromARGB(255, 232, 212, 10)),
-                            const SizedBox(width: 4),
-                            normalText(
-                                text: "${widget.data['s_rating']}",
-                                size: 16.0,
-                                color: blackColor),
-                          ],
-                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -282,7 +230,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   // Set background color to transparent
                   context: context,
                   builder: (BuildContext context) {
-                    return const InquirySection();
+                    return InquirySection(
+                        vendor_id: widget.data["vendor_id"],
+                        s_name: widget.data["s_name"]);
                   },
                 );
               },

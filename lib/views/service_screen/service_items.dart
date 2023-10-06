@@ -19,7 +19,7 @@ class ServiceItems extends StatefulWidget {
 
 class _ServiceItemsState extends State<ServiceItems> {
   var controller = Get.find<ServiceController>();
-  
+
   var searchController = TextEditingController();
   String selectedSubcategory = ""; // Initially, no subcategory is selected
 
@@ -100,7 +100,7 @@ class _ServiceItemsState extends State<ServiceItems> {
                       switchCategory(selectedSubcategory);
                     },
                     child: Container(
-                      padding: const EdgeInsets.only(left: 7.0,right: 7),
+                      padding: const EdgeInsets.only(left: 7.0, right: 7),
                       width: 130,
                       height: 60,
                       margin: const EdgeInsets.symmetric(horizontal: 4),

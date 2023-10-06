@@ -170,6 +170,7 @@ class HomeScreen extends StatelessWidget {
                                         .makeCentered();
                                   } else {
                                     var featuredData = snapshot.data!.docs;
+                                    
                                     return Row(
                                       children: List.generate(
                                           featuredData.length,

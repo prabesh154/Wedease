@@ -1,5 +1,5 @@
 import 'package:wedease/consts/consts.dart';
-import 'package:wedease/views/save_screen/save_details.dart';
+import 'package:wedease/controllers/service_controller.dart';
 import 'package:wedease/views/service_screen/service_details.dart';
 import 'package:wedease/widgets_common/loading_indicator.dart';
 
@@ -10,25 +10,28 @@ class SaveScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(ServiceController());
+    // controller.getSavedServices();
+
     return Scaffold(
       backgroundColor: lightGrey,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: "Saved".text.color(darkFontGrey).fontFamily(semibold).make(),
       ),
-      body: StreamBuilder(
-        stream: FirestorServices.getSaved(currentUser!.uid),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+      body: FutureBuilder(
+        future: controller.getSavedServices(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: loadingIndicator(),
             );
-          } else if (snapshot.data!.docs.isEmpty) {
+          } else if (snapshot.hasData && snapshot.data!.length == 0) {
             return Center(
               child: "Nothing is Saved".text.color(darkFontGrey).make(),
             );
-          } else {
-            var data = snapshot.data!.docs;
+          } else if (snapshot.hasData && snapshot.data!.length != 0) {
+            var data = snapshot.data!;
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.count(
@@ -39,9 +42,9 @@ class SaveScreen extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       Get.to(
-                        () => SaveDetails(
+                        () => ServiceDetails(
                           title: "${data[index]['s_name']}",
-                          data: data[index].data(),
+                          data: data[index],
                         ),
                       );
                     },
@@ -82,58 +85,22 @@ class SaveScreen extends StatelessWidget {
                                           .fontFamily(semibold)
                                           .size(16)
                                           .make(),
-                                       4.heightBox,   
+                                      4.heightBox,
                                       "Rs ${data[index]['s_price']}"
                                           .text
                                           .fontFamily(semibold)
                                           .size(12)
                                           .color(borderColor)
                                           .make(),
-                                       4.heightBox,
-                                          "${data[index]['s_location']}"
+                                      4.heightBox,
+                                      "${data[index]['s_location']}"
                                           .text
                                           .fontFamily(semibold)
                                           .size(12)
                                           .color(borderColor)
-                                          .make(),   
+                                          .make(),
                                     ],
                                   ),
-                                ),
-                                IconButton(
-                                  icon:
-                                      const Icon(Icons.delete, color: redColor),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title:
-                                              const Text('Delete Confirmation'),
-                                          content: const Text(
-                                              'Are you sure you want to delete?'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .pop(); // Close the dialog
-                                              },
-                                              child: const Text('Cancel'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () async {
-                                                FirestorServices.deleteDocument(
-                                                  data[index].id,
-                                                );
-                                                Navigator.of(context)
-                                                    .pop(); // Close the dialog
-                                              },
-                                              child: const Text('Delete'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
                                 ),
                               ],
                             ),
@@ -144,6 +111,10 @@ class SaveScreen extends StatelessWidget {
                   );
                 }),
               ),
+            );
+          } else {
+            return const Center(
+              child: Text("Error during fetch"),
             );
           }
         },

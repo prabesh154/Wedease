@@ -8,8 +8,10 @@ import 'package:wedease/consts/consts.dart';
 import 'package:wedease/widgets_common/normal_text.dart';
 
 class InquirySection extends StatefulWidget {
-  const InquirySection({Key? key}) : super(key: key);
-
+  final String vendor_id;
+  final String s_name;
+  const InquirySection(
+      {super.key, required this.vendor_id, required this.s_name});
   @override
   _InquirySectionState createState() => _InquirySectionState();
 }
@@ -53,6 +55,8 @@ class _InquirySectionState extends State<InquirySection> {
             .collection("users")
             .doc(user.uid)
             .get();
+
+        print(userDoc.data());
 
         if (userDoc.exists) {
           print("Document exists: ${userDoc.data()}");
@@ -132,12 +136,13 @@ class _InquirySectionState extends State<InquirySection> {
 
   Future<void> _sendInquiry() async {
     if (_formKey.currentState!.validate()) {
-      const int inquiryCodeLimit = 10;
+      const int inquiryCodeLimit = 13;
 
       String fullUuid = const Uuid().v4();
 
       String inquiryCode = fullUuid.substring(0, inquiryCodeLimit);
 
+      debugPrint("vendor_id ${widget.vendor_id}");
       // Prepare inquiry data
       Map<String, dynamic> inquiryData = {
         'inquiry_name': inquiryName,
@@ -147,6 +152,11 @@ class _InquirySectionState extends State<InquirySection> {
         'inquiry_message': inquiryMessage,
         'inquiry_date': _dateController.text,
         'inquiry_code': inquiryCode,
+        'vendor_id': widget.vendor_id,
+        "s_name": widget.s_name,
+        'inquiry_confirmed': false,
+        'inquiry_on_delivered': false,
+        'inquiry_on_payment': false,
       };
 
       try {
@@ -250,13 +260,18 @@ class _InquirySectionState extends State<InquirySection> {
                   //   controller: _locationController..text =inquiryLocation??_locationController.text,
                   //   readOnly: false,
                   // ),
-
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Phone'),
                     controller: _phoneController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your phone number';
+                      }
+                      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                        return 'Phone number can only contain numbers';
+                      }
+                      if (value.length < 8) {
+                        return 'Phone number must be at least 8 digits';
                       }
                       return null;
                     },
@@ -266,9 +281,16 @@ class _InquirySectionState extends State<InquirySection> {
                       });
                     },
                   ),
+
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Location'),
                     controller: _locationController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your phone number';
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       setState(() {
                         inquiryLocation =
@@ -276,17 +298,18 @@ class _InquirySectionState extends State<InquirySection> {
                       });
                     },
                   ),
-
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Message'),
                     controller: _messageController,
                     maxLines: 3,
                     onChanged: (value) {
                       setState(() {
-                        inquiryMessage = value;
+                        inquiryMessage =
+                            value ?? ' ' ?? ''; // Set to space if value is null
                       });
                     },
                   ),
+
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _sendInquiry,
@@ -301,5 +324,3 @@ class _InquirySectionState extends State<InquirySection> {
     );
   }
 }
-
-

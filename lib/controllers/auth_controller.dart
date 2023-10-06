@@ -28,11 +28,13 @@ class AuthController extends GetxController {
     UserCredential? userCredential;
 
     try {
-      await auth.createUserWithEmailAndPassword(
+      userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
     } on FirebaseAuthException catch (e) {
       VxToast.show(context, msg: e.toString());
     }
+    print("saved user id  : ");
+    print(userCredential!.user!.uid.toString());
     return userCredential;
   }
 
@@ -43,6 +45,8 @@ class AuthController extends GetxController {
       required String email}) async {
     DocumentReference store =
         firestore.collection(userCollection).doc(currentUser!.uid);
+    print("store user id ");
+    // print(currentUser!.uid.toString());
     store.set({
       'name': name,
       'password': password,
